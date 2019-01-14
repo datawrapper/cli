@@ -32,14 +32,20 @@ $ dw lint
 $ dw format 
 ```
 
+## Important!
+
+**The setup command will overwrite existing files, and keys in your package.json. DO Not run it if you want to keep your current config!** 
+
+If by accident, you overwrite your config files it should be pretty easy to revert when using git.  
+(In a future update this behaviour might change and `dw` won't just blindly overwrite files.)
+
 ## Features
 
 * [x] `--help` - List available commands and how to use them
 * [x] `--version` - Prints the version of this tool
-* [ ] `lint` - Use eslint to lint your code base or a file
-* [ ] `format` - Use eslint to format your code base or a file
-* [ ] `setup` - Setup tools
-  * [ ] `repo` - Configures a new empty project with `lint`, `format` and `hooks`
-  * [ ] `ci` - CircleCI config
-  * [ ] `hooks` - Git commit hooks
+* [x] `lint` - Use eslint to lint your code base or a file
+* [ ] `format` - Use prettier to format your code base or a file
+* [ ] `update` - Updates the cli tool
+* [x] `setup` - Setup tools
+  * [ ] `test` - basic test setup with ava
   * [ ] `storybook` - Storybook project setup

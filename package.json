@@ -6,7 +6,12 @@
   "bin": {
     "dw": "bin/index.js"
   },
+  "files": [
+    "bin",
+    "config"
+  ],
   "scripts": {
+    "prepublishOnly": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "parcel build src/index.js --target node --out-dir bin/",
     "start": "parcel src/index.js --target node --out-dir bin/",
