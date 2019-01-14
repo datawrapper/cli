@@ -31,7 +31,17 @@ class Lint extends Component {
                 process.exit(0);
             }, 0);
         } catch (err) {
-            this.setState(() => ({ stdout: err.stdout, status: 'err' }));
+            this.setState(() => ({
+                stdout: err.stdout,
+                status: 'err',
+                message: fix && 'Could not fix everything.'
+            }));
+
+            if (fix) {
+                setTimeout(() => {
+                    process.exit(0);
+                }, 0);
+            }
         }
     }
 
@@ -70,7 +80,7 @@ class Lint extends Component {
                     <Fragment>
                         <Color red>{this.state.stdout}</Color>
                         <br />
-            Try to fix errors (Y/n)?{' '}
+                        {this.state.message || 'Try to fix errors (Y/n)? '}
                         <ConfirmInput
                             value={this.state.input}
                             onChange={this.handleChange}
