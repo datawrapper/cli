@@ -8,8 +8,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "parcel build src/index.js --target node --out-dir bin/ --bundle-node-modules",
-    "start": "parcel src/index.js --target node --out-dir bin/"
+    "build": "parcel build src/index.js --target node --out-dir bin/",
+    "start": "parcel src/index.js --target node --out-dir bin/",
+    "lint": "eslint src config"
   },
   "repository": {
     "type": "git",

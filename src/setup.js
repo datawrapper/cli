@@ -43,7 +43,7 @@ class Setup extends Component {
         this.updateJob = this.updateJob.bind(this);
     }
 
-    async handleSubmit (list) {
+    handleSubmit (list) {
         this.setState({ status: 'running' }, async () => {
             const jobs = await Promise.all([
                 this.writeConfigFiles(list),
