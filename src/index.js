@@ -19,7 +19,7 @@ This will only lint \`index.js\`.
 program
     .command('format')
     .description(`Use prettier to format your code \n
-    This command will by default only lint files in the \`src\` directory.
+This command will by default only lint files in the \`src\` directory.
 `)
     .action(() => {
         console.log('@TODO: implement `format` option');
