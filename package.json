@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "parcel build src/index.js --target node --out-dir bin/",
+    "build": "parcel build src/index.js --target node --out-dir bin/ --bundle-node-modules",
     "start": "parcel src/index.js --target node --out-dir bin/"
   },
   "repository": {
@@ -23,6 +23,12 @@
     "ci",
     "setup"
   ],
+  "prettier": {
+    "tabWidth": 4,
+    "semi": true,
+    "printWidth": 100,
+    "singleQuote": true
+  },
   "author": "Fabian Guendel <f.guendel@gmail.com>",
   "license": "MIT",
   "bugs": {
@@ -31,20 +37,28 @@
   "homepage": "https://github.com/datawrapper/cli#readme",
   "devDependencies": {
     "@babel/core": "^7.2.2",
+    "babel-eslint": "^10.0.1",
     "babel-plugin-transform-react-jsx": "^6.24.1",
     "parcel-bundler": "^1.11.0",
-    "parcel-plugin-shebang": "^1.2.3"
+    "parcel-plugin-shebang": "^1.2.3",
+    "prettier": "^1.15.3"
   },
   "dependencies": {
     "commander": "2.19.0",
     "eslint": "5.12.0",
+    "eslint-config-react": "^1.1.7",
     "eslint-config-standard": "12.0.0",
     "eslint-plugin-import": "2.14.0",
     "eslint-plugin-node": "8.0.1",
     "eslint-plugin-promise": "4.0.1",
+    "eslint-plugin-react": "^7.12.3",
     "eslint-plugin-standard": "4.0.0",
+    "fs-extra": "7.0.1",
     "ink": "^0.5.1",
+    "ink-checkbox-list": "^1.3.1",
     "ink-confirm-input": "^1.0.3",
-    "ink-spinner": "2.0.0"
+    "ink-gradient": "0.1.1",
+    "ink-spinner": "2.0.0",
+    "lodash": "4.17.11"
   }
 }

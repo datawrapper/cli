@@ -21,8 +21,6 @@ program
 program
     .command('setup')
     .description('Project setup commands')
-    .action(() => {
-        console.log('@TODO: implement `setup` option');
-    });
+    .action(require('./setup'));
 
 program.parse(process.argv);
