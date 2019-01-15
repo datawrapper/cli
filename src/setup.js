@@ -5,7 +5,7 @@ const exec = util.promisify(require('child_process').exec);
 
 const flatten = require('lodash/flatten');
 const merge = require('lodash/merge');
-const { h, Component, render } = require('ink');
+const { h, Component, render, Color } = require('ink');
 const { List, ListItem } = require('ink-checkbox-list');
 const Spinner = require('ink-spinner');
 const Gradient = require('ink-gradient');
@@ -176,11 +176,11 @@ class Setup extends Component {
 
         return (
             <div>
-                {status}
                 <br />
                 <div>
                     <Gradient name="cristal">What do you want to setup?</Gradient>
                 </div>
+                <br />
                 <List onSubmit={this.handleSubmit}>
                     {Object.entries(tools).map(tool => (
                         <ListItem key={tool[0]} value={tool[0]} checked>
@@ -188,6 +188,11 @@ class Setup extends Component {
                         </ListItem>
                     ))}
                 </List>
+                <br />
+                <div>
+                    Press <Color cyan>[space]</Color> to select an option and{' '}
+                    <Color cyan>[enter]</Color> to start the setup.
+                </div>
             </div>
         );
     }
