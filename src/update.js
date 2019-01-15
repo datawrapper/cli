@@ -102,17 +102,17 @@ class Update extends Component {
             return (
                 <div>
                     <Gradient name="cristal">What version do you want to install?</Gradient>
-                    <br/>
-                    {status.includes('[loading]') &&
-                      <div>
-                          <Spinner green />
-                          <Gradient name="cristal"> {status}</Gradient>
-                      </div>
-                    }
+                    <br />
+                    {status.includes('[loading]') && (
+                        <div>
+                            <Spinner green />
+                            <Gradient name="cristal"> {status}</Gradient>
+                        </div>
+                    )}
                     <SelectInput
                         items={versions.map(v => ({ label: v, value: v }))}
                         onSelect={this.handleSelect}
-                    ></SelectInput>
+                    />
                 </div>
             );
         }

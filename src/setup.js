@@ -134,7 +134,7 @@ class Setup extends Component {
             list.filter(val => tools[val].packages).map(val => tools[val].packages)
         );
         if (list.length) {
-            await exec(`npm install ${packages.join(' ')}`);
+            await exec(`npm install ${packages.join(' ')} -D`);
             this.updateJob(jobIndex, 'Packackes installed.');
             return [`  - ${packages.length} packages installed`];
         } else {
@@ -152,9 +152,7 @@ class Setup extends Component {
                     <br />
                     <br />
                     {summary.map(item => (
-                        <div key='item'>
-                            {item}
-                        </div>
+                        <div key="item">{item}</div>
                     ))}
                 </div>
             );

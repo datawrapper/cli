@@ -50,9 +50,7 @@ class Lint extends Component {
             <div>
                 <br />
                 {messages.map(m => (
-                    <Color red={m[0] === 'error'}>
-                        {m[1]}
-                    </Color>
+                    <Color red={m[0] === 'error'}>{m[1]}</Color>
                 ))}
                 <br />
                 {status.includes('[running]') && <Spinner green />}

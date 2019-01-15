@@ -56,7 +56,7 @@ class Format extends Component {
                 <br />
                 {messages.map(m => (
                     <Color green={m[0] === 'success'} red={m[0] === 'error'}>
-                        {m[0] === 'error' && <br/>}
+                        {m[0] === 'error' && <br />}
                         {m[0] === 'success' && '✅ '}
                         {m[1]}
                     </Color>

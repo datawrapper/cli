@@ -25,7 +25,7 @@ class Exit extends Component {
                 <Bold>
                     <div>New version available</div>
                     <div>
-                        <br/>
+                        <br />
                         <Gradient name="cristal"> v{stdout.trim()}</Gradient>
                     </div>
                     <br />

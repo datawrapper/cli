@@ -7,19 +7,23 @@ program.version(version);
 
 program
     .command('lint [pattern]')
-    .description(`Use eslint to lint your code \n
+    .description(
+        `Use eslint to lint your code \n
 This command will by default only lint files in the \`src\` directory.
 It's possible to pass a custom glob pattern:\n
 > dw lint index.js\n
 This will only lint \`index.js\`.
-`)
+`
+    )
     .action(require('./lint'));
 
 program
     .command('format [pattern]')
-    .description(`Use prettier to format your code \n
+    .description(
+        `Use prettier to format your code \n
 This command will by default only lint files in the \`src\` directory.
-`)
+`
+    )
     .action(require('./format'));
 
 program
