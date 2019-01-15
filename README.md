@@ -43,7 +43,7 @@ If by accident, you overwrite your config files it should be pretty easy to reve
 * [x] `--version` - Prints the version of this tool
 * [x] `lint` - Use eslint to lint your code base or a file
 * [x] `format` - Use prettier to format your code base or a file
-* [ ] `update` - Updates the cli tool
+* [x] `update` - Updates the cli tool
 * [x] `setup` - Setup tools
   * [ ] `test` - basic test setup with ava
   * [ ] `storybook` - Storybook project setup
