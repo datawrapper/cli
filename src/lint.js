@@ -1,96 +1,63 @@
-const util = require('util');
-const exec = util.promisify(require('child_process').exec);
-const { h, render, Component, Fragment, Color } = require('ink');
-const ConfirmInput = require('ink-confirm-input');
+const { exec } = require('shelljs');
+const { h, render, Component, Color } = require('ink');
 const Spinner = require('ink-spinner');
+const Gradient = require('ink-gradient');
 
 class Lint extends Component {
     constructor (props) {
         super(props);
 
         this.state = {
-            stdout: '',
-            input: '',
-            status: 'init'
+            status: '[running] Code is being linted',
+            messages: []
         };
 
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.runEslint = this.runEslint.bind(this);
+        this.pushMessage = this.pushMessage.bind(this);
     }
 
-    componentDidMount () {
-        this.runEslint(this.props.cmd.fix);
+    pushMessage (type) {
+        return message => {
+            this.setState(prevState => {
+                prevState.messages.push([type, message]);
+                return prevState;
+            });
+        };
     }
 
-    async runEslint (fix) {
-        this.setState({ status: 'loading' });
-        try {
-            await exec(`npx eslint "${this.props.pattern}" ${fix ? '--fix' : ''}`);
-            this.setState(() => ({ status: 'done' }));
+    runEslint () {
+        const { pattern = 'src/**/*.js' } = this.props;
+        const lint = exec(`npx eslint ${pattern} --fix`, { async: true, silent: true }, () => {
+            this.setState({ status: '[done] Code linted' });
             setTimeout(() => {
                 process.exit(0);
             }, 0);
-        } catch (err) {
-            this.setState(() => ({
-                stdout: err.stdout,
-                status: 'err',
-                message: fix && 'Could not fix everything.'
-            }));
+        });
 
-            if (fix) {
-                setTimeout(() => {
-                    process.exit(0);
-                }, 0);
-            }
-        }
+        lint.stdout.on('data', this.pushMessage('error'));
     }
 
-    handleChange (input) {
-        this.setState({ input });
-    }
-
-    handleSubmit (val) {
-        if (val) {
-            this.runEslint(val);
-            this.setState({ input: '' });
-        } else {
-            process.exit(0);
-        }
+    componentDidMount () {
+        this.runEslint();
     }
 
     render () {
-        if (this.state.status === 'done') {
-            return (
-                <Fragment>
-                    <br />
-                    <Color green>✓</Color> ESLint Done
-                </Fragment>
-            );
-        }
+        const { status, messages } = this.state;
 
         return (
-            <Fragment>
+            <div>
                 <br />
-                {this.state.status === 'loading' && (
-                    <Fragment>
-                        <Spinner green /> Running ESLint
-                    </Fragment>
-                )}
-                {this.state.status === 'err' && (
-                    <Fragment>
-                        <Color red>{this.state.stdout}</Color>
-                        <br />
-                        {this.state.message || 'Try to fix errors (Y/n)? '}
-                        <ConfirmInput
-                            value={this.state.input}
-                            onChange={this.handleChange}
-                            onSubmit={this.handleSubmit}
-                        />
-                    </Fragment>
-                )}
-            </Fragment>
+                {messages.map(m => (
+                    <Color red={m[0] === 'error'}>
+                        {m[1]}
+                    </Color>
+                ))}
+                <br />
+                {status.includes('[running]') && <Spinner green />}
+                <Gradient name="cristal">{status}</Gradient>
+            </div>
         );
     }
 }
 
-module.exports = (pattern = 'src', cmd) => render(<Lint pattern={pattern} cmd={cmd} />);
+module.exports = (pattern, cmd) => render(<Lint pattern={pattern} cmd={cmd} />);
