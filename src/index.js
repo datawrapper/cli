@@ -27,4 +27,10 @@ program
     .description('Project setup commands')
     .action(require('./setup'));
 
+program
+    .command('update')
+    .option('-s, --select', 'Select a specific version to update to.')
+    .description('Update `dw` cli')
+    .action(require('./update'));
+
 program.parse(process.argv);

@@ -3,6 +3,8 @@ const { h, render, Component, Color } = require('ink');
 const Spinner = require('ink-spinner');
 const Gradient = require('ink-gradient');
 
+const exit = require('./exit');
+
 class Format extends Component {
     constructor (props) {
         super(props);
@@ -34,7 +36,7 @@ class Format extends Component {
         exec(`npx eslint ${pattern} --fix`, { async: true, silent: true }, () => {
             this.setState({ status: '[done] Code formatted' });
             setTimeout(() => {
-                process.exit(0);
+                exit();
             }, 0);
         });
 
@@ -61,7 +63,7 @@ class Format extends Component {
                 ))}
                 <br />
                 {status.includes('[running]') && <Spinner green />}
-                <Gradient name="cristal">{status}</Gradient>
+                <Gradient name="cristal"> {status}</Gradient>
             </div>
         );
     }

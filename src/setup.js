@@ -10,6 +10,7 @@ const { List, ListItem } = require('ink-checkbox-list');
 const Spinner = require('ink-spinner');
 const Gradient = require('ink-gradient');
 
+const exit = require('./exit');
 const lintConfig = require('../config/eslint');
 
 const tools = {
@@ -54,7 +55,7 @@ class Setup extends Component {
 
             this.setState({ status: 'done', summary: flatten(jobs) });
             setTimeout(() => {
-                process.exit(0);
+                exit();
             }, 0);
         });
     }

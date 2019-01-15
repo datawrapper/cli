@@ -3,6 +3,8 @@ const { h, render, Component, Color } = require('ink');
 const Spinner = require('ink-spinner');
 const Gradient = require('ink-gradient');
 
+const exit = require('./exit');
+
 class Lint extends Component {
     constructor (props) {
         super(props);
@@ -30,7 +32,7 @@ class Lint extends Component {
         const lint = exec(`npx eslint ${pattern} --fix`, { async: true, silent: true }, () => {
             this.setState({ status: '[done] Code linted' });
             setTimeout(() => {
-                process.exit(0);
+                exit();
             }, 0);
         });
 
@@ -54,7 +56,7 @@ class Lint extends Component {
                 ))}
                 <br />
                 {status.includes('[running]') && <Spinner green />}
-                <Gradient name="cristal">{status}</Gradient>
+                <Gradient name="cristal"> {status}</Gradient>
             </div>
         );
     }
