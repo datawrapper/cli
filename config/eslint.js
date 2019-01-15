@@ -5,7 +5,9 @@ module.exports = {
         extends: ['standard'],
         rules: {
             indent: ['error', 4],
-            semi: ['error', 'always']
+            semi: ['error', 'always'],
+            camelcase: ['error', { ignoreDestructuring: true }],
+            'no-console': ['error', { allow: ['warn', 'error'] }]
         }
     },
     packages: [
