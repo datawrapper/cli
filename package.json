@@ -1,4 +1,30 @@
 {
+  "scripts": {
+    "format": "prettier src/**/*.js --write && eslint src --fix",
+    "prepublishOnly": "npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "parcel build src/index.js --target node --out-dir bin/",
+    "start": "parcel src/index.js --target node --out-dir bin/",
+    "lint": "eslint src config"
+  },
+  "prettier": {
+    "tabWidth": 4,
+    "semi": true,
+    "printWidth": 100,
+    "singleQuote": true
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write",
+      "eslint --fix",
+      "git add"
+    ]
+  },
   "name": "@datawrapper/cli",
   "version": "0.0.3",
   "description": "Command Line Utility to make project scaffolding and tooling setup simple.",
@@ -10,13 +36,6 @@
     "bin",
     "config"
   ],
-  "scripts": {
-    "prepublishOnly": "npm run build",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "parcel build src/index.js --target node --out-dir bin/",
-    "start": "parcel src/index.js --target node --out-dir bin/",
-    "lint": "eslint src config"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/datawrapper/cli.git"
@@ -29,12 +48,6 @@
     "ci",
     "setup"
   ],
-  "prettier": {
-    "tabWidth": 4,
-    "semi": true,
-    "printWidth": 100,
-    "singleQuote": true
-  },
   "author": "Fabian Guendel <f.guendel@gmail.com>",
   "license": "MIT",
   "bugs": {
@@ -45,9 +58,11 @@
     "@babel/core": "~7.2.2",
     "babel-eslint": "~10.0.1",
     "babel-plugin-transform-react-jsx": "~6.24.1",
+    "husky": "~1.3.1",
+    "lint-staged": "~8.1.0",
     "parcel-bundler": "~1.11.0",
     "parcel-plugin-shebang": "~1.2.3",
-    "prettier": "~1.15.3"
+    "prettier": "^1.15.3"
   },
   "dependencies": {
     "commander": "2.19.0",
