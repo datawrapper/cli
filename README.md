@@ -4,17 +4,17 @@ Command Line Utility to make project scaffolding and tooling setup simple.
 
 ## Installation
 
-### Install as project dependency (recommended)
-
-```sh
-$ npm i -D @datawrapper/cli
-```
-
-### Install globally or use `npx`
+### Install globally (recommended)
 
 ```sh
 # global installation
 $ npm i -g @datawrapper/cli
+```
+
+### Install as project dependency or use `npx`
+
+```sh
+$ npm i -D @datawrapper/cli
 
 # usage with `npx`
 $ npx @datawrapper/cli lint
@@ -24,11 +24,9 @@ $ npx @datawrapper/cli lint
 
 ```sh
 # lints your projects source files based on Datawrapper Code Guidelines
-
 $ dw lint 
 
 # formats your projects source files based on Datawrapper Code Guidelines
-
 $ dw format 
 ```
 
@@ -44,7 +42,7 @@ If by accident, you overwrite your config files it should be pretty easy to reve
 * [x] `--help` - List available commands and how to use them
 * [x] `--version` - Prints the version of this tool
 * [x] `lint` - Use eslint to lint your code base or a file
-* [ ] `format` - Use prettier to format your code base or a file
+* [x] `format` - Use prettier to format your code base or a file
 * [ ] `update` - Updates the cli tool
 * [x] `setup` - Setup tools
   * [ ] `test` - basic test setup with ava
