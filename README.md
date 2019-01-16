@@ -22,12 +22,76 @@ $ npx @datawrapper/cli lint
 
 ## Usage
 
+The `--help` command shows you more information about everything you can do with `dw`.
+
+It is possible to run `--help` for all sub commands.
+
+```
+❯ dw --help
+Usage: dw [options] [command]
+
+Options:
+  -V, --version     output the version number
+  -h, --help        output usage information
+
+Commands:
+  lint [pattern]    Use eslint to lint your code
+
+  This command will by default only lint files in the `src` directory.
+  It's possible to pass a custom glob pattern:
+
+  > dw lint index.js
+
+  This will only lint `index.js`.
+
+  format [pattern]  Use prettier to format your code
+
+  This command will by default only lint files in the `src` directory.
+
+  setup             Project setup commands
+  update [options]  Update `dw` cli
+```
+
+The following commands are available.
+
+```sh
+# Quick setup scripts for use in existing or new projects
+❯ dw setup
+
+What do you want to setup?
+
+# configures eslint with the Datawrapper eslint config
+❯  ☐  Code linting     
+
+# configures prettier to format code 
+   ☐  Code formatting   
+
+# configures commit hooks that run linting and/or formatting scripts before commits
+   ☐  Git Hooks         
+
+# copies a standard CircleCI config into the repository
+   ☐  CircleCI
+
+# Adds a standard gitignore file for node based projects
+   ☐  Add gitignore
+
+Press [space] to select an option and [enter] to start the setup.
+```
+
+Other commands to update or quickly lint/format a file:
+
 ```sh
 # lints your projects source files based on Datawrapper Code Guidelines
-$ dw lint 
+# Wrapper around `eslint src --fix`
+❯ dw lint 
 
 # formats your projects source files based on Datawrapper Code Guidelines
-$ dw format 
+# Wrapper around `prettier src/**/*.js --write`
+❯ dw format 
+
+# Updates the `dw` CLI to the latest version
+# Wrapper around `npm i -g @datawrapper/cli`
+❯ dw update
 ```
 
 ## Important!
