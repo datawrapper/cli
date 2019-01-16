@@ -32,6 +32,10 @@ const tools = {
     ci: {
         name: 'CircleCI',
         copyFile: ['../config/circleci.yml', '.circleci/config.yml']
+    },
+    gitignore: {
+        name: 'Add gitignore',
+        copyFile: ['../config/.gitignore-example', '.gitignore']
     }
 };
 
