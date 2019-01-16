@@ -6,7 +6,7 @@ module.exports = {
         rules: {
             indent: ['error', 4],
             semi: ['error', 'always'],
-            camelcase: ['error', { ignoreDestructuring: true }],
+            camelcase: ['warn', { ignoreDestructuring: true }],
             'no-console': ['error', { allow: ['warn', 'error'] }]
         }
     },
