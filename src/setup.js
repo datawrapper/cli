@@ -4,7 +4,7 @@ const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 
 const flatten = require('lodash/flatten');
-const merge = require('lodash/merge');
+const mergeWith = require('lodash/mergeWith');
 const { h, Component, render, Color } = require('ink');
 const { List, ListItem } = require('ink-checkbox-list');
 const Spinner = require('ink-spinner');
@@ -12,6 +12,15 @@ const Gradient = require('ink-gradient');
 
 const exit = require('./exit');
 const lintConfig = require('../config/eslint');
+
+function replaceSource (objValue, srcValue) {
+    if (Array.isArray(objValue)) {
+        return objValue;
+    }
+    if (typeof objValue === 'string') {
+        return objValue;
+    }
+}
 
 const tools = {
     lint: {
@@ -117,10 +126,14 @@ class Setup extends Component {
 
         const newPackageJson = list
             .filter(val => tools[val].packageJson)
-            .reduce(
-                (tempPackageJson, val) => merge(tools[val].packageJson, tempPackageJson),
-                packageJson
-            );
+            .reduce((tempPackageJson, val) => {
+                const newKeys =
+                    typeof tools[val].packageJson === 'function'
+                        ? tools[val].packageJson(list)
+                        : tools[val].packageJson;
+
+                return mergeWith(newKeys, tempPackageJson, replaceSource);
+            }, packageJson);
 
         await fs.writeJSON(path.join(process.cwd(), 'package.json'), newPackageJson, { spaces: 2 });
 
@@ -134,7 +147,7 @@ class Setup extends Component {
             list.filter(val => tools[val].packages).map(val => tools[val].packages)
         );
         if (list.length) {
-            await exec(`npm install ${packages.join(' ')} -D`);
+            await exec(`npm install -D ${packages.join(' ')}`);
             this.updateJob(jobIndex, 'Packackes installed.');
             return [`  - ${packages.length} packages installed`];
         } else {
