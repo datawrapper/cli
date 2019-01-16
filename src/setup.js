@@ -150,7 +150,8 @@ class Setup extends Component {
         const packages = flatten(
             list.filter(val => tools[val].packages).map(val => tools[val].packages)
         );
-        if (list.length) {
+
+        if (packages.length) {
             await exec(`npm install -D ${packages.join(' ')}`);
             this.updateJob(jobIndex, 'Packackes installed.');
             return [`  - ${packages.length} packages installed`];
