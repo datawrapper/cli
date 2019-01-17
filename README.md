@@ -1,5 +1,9 @@
 # @datawrapper/cli [![CircleCI](https://circleci.com/gh/datawrapper/cli.svg?style=svg&circle-token=87e50e1f79908137e5b8dfe612cb779650cea400)](https://circleci.com/gh/datawrapper/cli)
 
+> **Note:** This is an internal tool used by the Datawrapper development team. It is _not_ a command-line interface for the Datawrapper API, so you can't use it to create/edit charts etc.: this is an internal tool used by the Datawrapper development team.
+
+It is not a command
+
 Command Line Utility to make project scaffolding and tooling setup simple.
 
 This tool is mainly in use at Datawrapper and has Datawrapper specific settings and configuration. If this is helpful for you great but it might not. PRs welcome but we might not merge everything.
@@ -38,7 +42,9 @@ Options:
 
 Commands:
   lint [pattern]    Use eslint to lint your code
+: this is an internal tool used by the Datawrapper development team.
 
+It is not a command
   This command will by default only lint files in the `src` directory.
   It's possible to pass a custom glob pattern:
 
