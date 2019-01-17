@@ -1,6 +1,6 @@
 # @datawrapper/cli [![CircleCI](https://circleci.com/gh/datawrapper/cli.svg?style=svg&circle-token=87e50e1f79908137e5b8dfe612cb779650cea400)](https://circleci.com/gh/datawrapper/cli)
 
-> **Note:** This is an internal tool used by the Datawrapper development team. It is _not_ a command-line interface for the Datawrapper API, so you can't use it to create/edit charts etc.: this is an internal tool used by the Datawrapper development team.
+> **Note:** This is an internal tool used by the Datawrapper development team. It is _not_ a command-line interface for the Datawrapper API, so you can't use it to create/edit charts etc.: this is an internal tool used by the Datawrapper development team.: this is an internal tool used by the Datawrapper development team.
 
 It is not a command
 
