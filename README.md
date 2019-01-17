@@ -2,6 +2,8 @@
 
 Command Line Utility to make project scaffolding and tooling setup simple.
 
+This tool is mainly in use at Datawrapper and has Datawrapper specific settings and configuration. If this is helpful for you great but it might not. PRs welcome but we might not merge everything.
+
 ## Installation
 
 ### Install globally (recommended)
