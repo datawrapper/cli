@@ -2,8 +2,6 @@
 
 > **Note:** This is an internal tool used by the Datawrapper development team. It is _not_ a command-line interface for the Datawrapper API, so you can't use it to create/edit charts etc.: this is an internal tool used by the Datawrapper development team.: this is an internal tool used by the Datawrapper development team.
 
-It is not a command
-
 Command Line Utility to make project scaffolding and tooling setup simple.
 
 This tool is mainly in use at Datawrapper and has Datawrapper specific settings and configuration. If this is helpful for you great but it might not. PRs welcome but we might not merge everything.
