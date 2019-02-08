@@ -1,89 +1,86 @@
 defaults: &defaults
-  working_directory: ~/repo
-  docker:
-    - image: circleci/node:10
+    working_directory: ~/repo
+    docker:
+        - image: sto3psl/dw-ci:1.1.0
 
 cache: &cache
     key: v1-dependency-cache-{{ checksum "package-lock.json" }}
 
 version: 2
 jobs:
-  install:
-    <<: *defaults
-    steps:
-      - checkout
-      - restore_cache:
-          <<: *cache
+    install:
+        <<: *defaults
+        steps:
+            - checkout
+            - restore_cache:
+                  <<: *cache
 
-      - run: npm ci
+            - run: npm ci
 
-      - save_cache:
-          <<: *cache
-          paths:
-            - node_modules
-  test:
-    <<: *defaults
-    steps:
-      - checkout
-      - restore_cache:
-          <<: *cache
+            - save_cache:
+                  <<: *cache
+                  paths:
+                      - node_modules
+    test:
+        <<: *defaults
+        steps:
+            - checkout
+            - restore_cache:
+                  <<: *cache
 
-      - run: npm test
+            - run: npm test
 
+    lint:
+        <<: *defaults
+        steps:
+            - checkout
+            - restore_cache:
+                  <<: *cache
 
-  lint:
-    <<: *defaults
-    steps:
-      - checkout
-      - restore_cache:
-          <<: *cache
+            - run: npm run lint
 
-      - run: npm run lint
-
-  # publish:
-  #   <<: *defaults
-  #   steps:
-  #     - checkout
-  #     - restore_cache:
-  #         <<: *cache
-
-  #     - run:
-  #         name: Authenticate with registry
-  #         command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
-  #     - run:
-  #         name: Publish Package
-  #         command: npm publish
+    # publish:
+    #   <<: *defaults
+    #   steps:
+    #     - checkout
+    #     - restore_cache:
+    #         <<: *cache
+    #     - run:
+    #         name: Authenticate with registry
+    #         command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
+    #     - run:
+    #         name: Publish Package
+    #         command: npm publish
 
 workflows:
-  version: 2
-  install, test and lint:
-    jobs:
-      - install:
-          filters:
-            tags:
-              only: /^v.*/
+    version: 2
+    install, test and lint:
+        jobs:
+            - install:
+                  filters:
+                      tags:
+                          only: /^v.*/
 
-      - test:
-          filters:
-            tags:
-              only: /^v.*/
-          requires:
-            - install
+            - test:
+                  filters:
+                      tags:
+                          only: /^v.*/
+                  requires:
+                      - install
 
-      - lint:
-          filters:
-            tags:
-              only: /^v.*/
-          requires:
-            - install
-
-      # - publish:
-      #     context: Deployment Keys
-      #     requires:
-      #       - test
-      #       - lint
-      #     filters:
-      #       tags:
-      #         only: /^v.*/
-      #       branches:
-      #         ignore: /.*/
+            - lint:
+                  filters:
+                      tags:
+                          only: /^v.*/
+                  requires:
+                      - install
+            # - publish:
+            #     context: Deployment Keys
+            #     requires:
+            #       - test
+            #       - lint
+            #     filters:
+            #       tags:
+            #         only: /^v.*/
+            #       branches:
+            #         ignore: /.*/
