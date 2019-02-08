@@ -67,19 +67,22 @@ The following commands are available.
 What do you want to setup?
 
 # configures eslint with the Datawrapper eslint config
-❯  ☐  Code linting     
+❯  ☐  Code linting
 
-# configures prettier to format code 
-   ☐  Code formatting   
+# configures prettier to format code
+   ☐  Code formatting
 
 # configures commit hooks that run linting and/or formatting scripts before commits
-   ☐  Git Hooks         
+   ☐  Git Hooks
 
 # copies a standard CircleCI config into the repository
    ☐  CircleCI
 
 # Adds a standard gitignore file for node based projects
    ☐  Add gitignore
+
+# Installs recommended Visual Studio Code Extensions for a better workflow in Datawrapper projects.
+   ☐  VSCode Extensions
 
 Press [space] to select an option and [enter] to start the setup.
 ```
@@ -89,11 +92,11 @@ Other commands to update or quickly lint/format a file:
 ```sh
 # lints your projects source files based on Datawrapper Code Guidelines
 # Wrapper around `eslint src --fix`
-❯ dw lint 
+❯ dw lint
 
 # formats your projects source files based on Datawrapper Code Guidelines
 # Wrapper around `prettier src/**/*.js --write`
-❯ dw format 
+❯ dw format
 
 # Updates the `dw` CLI to the latest version
 # Wrapper around `npm i -g @datawrapper/cli`
@@ -102,18 +105,47 @@ Other commands to update or quickly lint/format a file:
 
 ## Important!
 
-**The setup command will overwrite existing files, and keys in your package.json. DO Not run it if you want to keep your current config!** 
+**The setup command will overwrite existing files, and keys in your package.json. DO Not run it if you want to keep your current config!**
 
 If by accident, you overwrite your config files it should be pretty easy to revert when using git.  
 (In a future update this behaviour might change and `dw` won't just blindly overwrite files.)
 
+## Development
+
+To contribute features to `@datawrapper/cli`, clone the repository and install dependencies with `npm`.
+
+```sh
+❯ git clone git@github.com:datawrapper/cli.git
+❯ npm install
+```
+
+With these commands the development environment is setup. Run `npm start` to build the executable with Parcel, which will end up in `bin/index.js`. Try to run it with `node bin/index.js --help`. The terminal should print the help instructions. To get a global `dw` command, link the project with `npm link`.
+
+The recommended setup is to run `npm start` in a terminal window. This will start Parcel and watches all source files for changes and rebuilds the executable.
+
+```sh
+~/code/dw-cli
+❯ npm start
+
+> @datawrapper/cli@0.1.1 start /Users/fabian/code/dw-cli
+> parcel src/index.js --target node --out-dir bin/
+
+✨  Built in 26ms.
+```
+
+In another terminal window try out the CLI by linking once and running `dw --help`.
+
+```sh
+~/code/dw-cli
+❯ npm link
+❯ dw --help
+```
+
 ## Features
 
-* [x] `--help` - List available commands and how to use them
-* [x] `--version` - Prints the version of this tool
-* [x] `lint` - Use eslint to lint your code base or a file
-* [x] `format` - Use prettier to format your code base or a file
-* [x] `update` - Updates the cli tool
-* [x] `setup` - Setup tools
-  * [ ] `test` - basic test setup with ava
-  * [ ] `storybook` - Storybook project setup
+-   [x] `--help` - List available commands and how to use them
+-   [x] `--version` - Prints the version of this tool
+-   [x] `lint` - Use eslint to lint your code base or a file
+-   [x] `format` - Use prettier to format your code base or a file
+-   [x] `update` - Updates the cli tool
+-   [x] `setup` - Setup tools
