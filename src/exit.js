@@ -6,13 +6,13 @@ const Gradient = require('ink-gradient');
 const { name, version } = require('../package.json');
 
 class Exit extends Component {
-    componentDidMount () {
+    componentDidMount() {
         setTimeout(() => {
             process.exit(0);
         }, 0);
     }
 
-    render () {
+    render() {
         const { stdout } = exec(`npm show ${name}@latest version`, { silent: true });
         if (stdout.trim() === version.trim()) {
             return null;

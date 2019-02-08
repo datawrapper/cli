@@ -8,7 +8,7 @@ const exit = require('./exit');
 const name = require('../package.json').name;
 
 class Update extends Component {
-    constructor (props) {
+    constructor(props) {
         super(props);
 
         this.state = {
@@ -24,7 +24,7 @@ class Update extends Component {
         this.handleSelect = this.handleSelect.bind(this);
     }
 
-    pushMessage (type) {
+    pushMessage(type) {
         return message => {
             if (message !== '\n') {
                 this.setState(prevState => {
@@ -35,7 +35,7 @@ class Update extends Component {
         };
     }
 
-    update (name) {
+    update(name) {
         this.setState({
             status: '[running] Update is getting installed',
             select: false
@@ -56,7 +56,7 @@ class Update extends Component {
         install.stderr.on('data', this.pushMessage('error'));
     }
 
-    loadVersions () {
+    loadVersions() {
         this.setState({ status: '[loading] Loading versions' });
         exec(`npm show ${name}@* version`, { async: true, silent: true }, (err, stdout, stderr) => {
             if (err) {
@@ -83,11 +83,11 @@ class Update extends Component {
         });
     }
 
-    handleSelect ({ value }) {
+    handleSelect({ value }) {
         this.update(value);
     }
 
-    componentDidMount () {
+    componentDidMount() {
         if (!this.props.cmd.select) {
             this.update(name);
         } else {
@@ -95,7 +95,7 @@ class Update extends Component {
         }
     }
 
-    render () {
+    render() {
         const { status, messages, versions, select } = this.state;
 
         if (select && !status.includes('[running]')) {
