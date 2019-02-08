@@ -48,7 +48,7 @@
         }
     },
     "name": "@datawrapper/cli",
-    "version": "0.1.1",
+    "version": "0.2.0",
     "description": "Command Line Utility to make project scaffolding and tooling setup simple.",
     "main": "bin/index.js",
     "bin": {
