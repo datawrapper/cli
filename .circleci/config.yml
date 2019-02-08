@@ -21,14 +21,14 @@ jobs:
                   <<: *cache
                   paths:
                       - node_modules
-    build:
+    test:
         <<: *defaults
         steps:
             - checkout
             - restore_cache:
                   <<: *cache
 
-            - run: npm run build
+            - run: npm run test
 
     lint:
         <<: *defaults
@@ -55,7 +55,7 @@ jobs:
 
 workflows:
     version: 2
-    do_what_you_have_to_do:
+    test and publish:
         jobs:
             - install:
                   filters:
@@ -69,17 +69,17 @@ workflows:
                   requires:
                       - install
 
-            - build:
+            - test:
                   filters:
                       tags:
                           only: /^v.*/
                   requires:
-                      - lint
+                      - install
 
             - publish:
                   context: Deployment Keys
                   requires:
-                      - build
+                      - test
                       - lint
                   filters:
                       tags:

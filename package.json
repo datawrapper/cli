@@ -15,7 +15,7 @@
         "format": "prettier 'src/**/*.js' --write",
         "lint": "prettier --check 'src/**/*.{js,html}' && healthier 'src/**/*.{js,html}'",
         "prepublishOnly": "npm run build",
-        "test": "echo \"Error: no test specified\" && exit 1",
+        "test": "npm run build && node bin/index.js --version && node bin/index.js --help",
         "build": "parcel build src/index.js --target node --out-dir bin/",
         "start": "parcel src/index.js --target node --out-dir bin/"
     },
