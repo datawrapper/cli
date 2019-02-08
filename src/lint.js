@@ -28,7 +28,7 @@ class Lint extends Component {
     }
 
     runEslint () {
-        const { pattern = 'src/**/*.js' } = this.props;
+        const { pattern = `'src/**/*.js'` } = this.props;
         const lint = exec(`npx eslint ${pattern} --fix`, { async: true, silent: true }, () => {
             this.setState({ status: '[done] Code linted' });
             setTimeout(() => {

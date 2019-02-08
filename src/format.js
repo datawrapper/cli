@@ -30,7 +30,7 @@ class Format extends Component {
     }
 
     runPrettier () {
-        const { pattern = 'src/**/*.js' } = this.props;
+        const { pattern = `'src/**/*.js'` } = this.props;
         const format = exec(`npx prettier ${pattern} --write`, { async: true, silent: true });
 
         exec(`npx eslint ${pattern} --fix`, { async: true, silent: true }, () => {
