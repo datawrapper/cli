@@ -12,7 +12,7 @@ const Gradient = require('ink-gradient');
 
 const exit = require('./exit');
 
-function replaceSource (objValue, srcValue) {
+function replaceSource(objValue, srcValue) {
     if (Array.isArray(objValue)) {
         return objValue;
     }
@@ -36,7 +36,7 @@ const tools = {
 };
 
 class Setup extends Component {
-    constructor (props) {
+    constructor(props) {
         super(props);
 
         this.state = {
@@ -53,7 +53,7 @@ class Setup extends Component {
         this.updateJob = this.updateJob.bind(this);
     }
 
-    handleSubmit (list) {
+    handleSubmit(list) {
         this.setState({ status: 'running' }, async () => {
             const jobs = await Promise.all([
                 this.writeConfigFiles(list),
@@ -69,7 +69,7 @@ class Setup extends Component {
         });
     }
 
-    addJob (text) {
+    addJob(text) {
         let index = 0;
         this.setState(prevState => {
             index = prevState.jobs.push([text, false]) - 1;
@@ -78,14 +78,14 @@ class Setup extends Component {
         return index;
     }
 
-    updateJob (index, text) {
+    updateJob(index, text) {
         this.setState(prevState => {
             index = prevState.jobs[index] = [text, true];
             return prevState;
         });
     }
 
-    async copyConfigFiles (list) {
+    async copyConfigFiles(list) {
         const jobIndex = this.addJob('Copying files ...');
         const funcs = list
             .filter(val => tools[val].copyFile)
@@ -101,7 +101,7 @@ class Setup extends Component {
         return Promise.all(funcs);
     }
 
-    async writeConfigFiles (list) {
+    async writeConfigFiles(list) {
         const jobIndex = this.addJob('Writing config files ...');
         const funcs = list
             .filter(val => tools[val].writeFile)
@@ -120,7 +120,7 @@ class Setup extends Component {
         return Promise.all(funcs);
     }
 
-    async modifyPackageJson (list) {
+    async modifyPackageJson(list) {
         const jobIndex = this.addJob('Adding keys to package.json ...');
         const packageJson = await fs.readJSON(path.join(process.cwd(), 'package.json'));
 
@@ -141,7 +141,7 @@ class Setup extends Component {
         return ['  - package.json updated'];
     }
 
-    async installPackages (list) {
+    async installPackages(list) {
         const jobIndex = this.addJob('Installing npm packages ...');
         const packages = flatten(
             list.filter(val => tools[val].packages).map(val => tools[val].packages)
@@ -156,7 +156,7 @@ class Setup extends Component {
         }
     }
 
-    render () {
+    render() {
         const { status, jobs, summary } = this.state;
         if (status === 'done') {
             return (
