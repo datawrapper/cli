@@ -1,22 +1,15 @@
 module.exports = {
     name: 'Code formatting',
     packages: ['prettier'],
-    packageJson: list => {
-        let formatScript = 'prettier src/**/*.js --write';
-
-        if (list.includes('lint')) {
-            formatScript = `${formatScript} && eslint src --fix`;
+    packageJson: {
+        scripts: {
+            format: "prettier 'src/**/*.js' --write"
+        },
+        prettier: {
+            tabWidth: 4,
+            semi: true,
+            printWidth: 100,
+            singleQuote: true
         }
-        return {
-            scripts: {
-                format: formatScript
-            },
-            prettier: {
-                tabWidth: 4,
-                semi: true,
-                printWidth: 100,
-                singleQuote: true
-            }
-        };
     }
 };
