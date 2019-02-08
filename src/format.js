@@ -6,7 +6,7 @@ const Gradient = require('ink-gradient');
 const exit = require('./exit');
 
 class Format extends Component {
-    constructor (props) {
+    constructor(props) {
         super(props);
 
         this.state = {
@@ -18,7 +18,7 @@ class Format extends Component {
         this.pushMessage = this.pushMessage.bind(this);
     }
 
-    pushMessage (type) {
+    pushMessage(type) {
         return message => {
             if (message !== '\n') {
                 this.setState(prevState => {
@@ -29,8 +29,8 @@ class Format extends Component {
         };
     }
 
-    runPrettier () {
-        const { pattern = 'src/**/*.js' } = this.props;
+    runPrettier() {
+        const { pattern = "'src/**/*.js'" } = this.props;
         const format = exec(`npx prettier ${pattern} --write`, { async: true, silent: true });
 
         exec(`npx eslint ${pattern} --fix`, { async: true, silent: true }, () => {
@@ -44,11 +44,11 @@ class Format extends Component {
         format.stderr.on('data', this.pushMessage('error'));
     }
 
-    componentDidMount () {
+    componentDidMount() {
         this.runPrettier();
     }
 
-    render () {
+    render() {
         const { status, messages } = this.state;
 
         return (

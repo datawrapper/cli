@@ -6,7 +6,7 @@ const Gradient = require('ink-gradient');
 const exit = require('./exit');
 
 class Lint extends Component {
-    constructor (props) {
+    constructor(props) {
         super(props);
 
         this.state = {
@@ -18,7 +18,7 @@ class Lint extends Component {
         this.pushMessage = this.pushMessage.bind(this);
     }
 
-    pushMessage (type) {
+    pushMessage(type) {
         return message => {
             this.setState(prevState => {
                 prevState.messages.push([type, message]);
@@ -27,9 +27,9 @@ class Lint extends Component {
         };
     }
 
-    runEslint () {
-        const { pattern = 'src/**/*.js' } = this.props;
-        const lint = exec(`npx eslint ${pattern} --fix`, { async: true, silent: true }, () => {
+    runEslint() {
+        const { pattern = "'src/**/*.{js,html}'" } = this.props;
+        const lint = exec(`npx healthier ${pattern}`, { async: true, silent: true }, () => {
             this.setState({ status: '[done] Code linted' });
             setTimeout(() => {
                 exit();
@@ -39,11 +39,11 @@ class Lint extends Component {
         lint.stdout.on('data', this.pushMessage('error'));
     }
 
-    componentDidMount () {
+    componentDidMount() {
         this.runEslint();
     }
 
-    render () {
+    render() {
         const { status, messages } = this.state;
 
         return (
