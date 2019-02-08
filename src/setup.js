@@ -32,6 +32,17 @@ const tools = {
     gitignore: {
         name: 'Add gitignore',
         copyFile: ['../config/.gitignore-example', '.gitignore']
+    },
+    vscode: {
+        name: 'VSCode Extensions',
+        script: `code --install-extension ${[
+            'kidkarolis.vscode-healthier',
+            'wix.vscode-import-cost',
+            'esbenp.prettier-vscode',
+            'mechatroner.rainbow-csv',
+            'marclipovsky.string-manipulation',
+            'sleistner.vscode-fileutils'
+        ].join(' ')}`
     }
 };
 
@@ -49,6 +60,7 @@ class Setup extends Component {
         this.copyConfigFiles = this.copyConfigFiles.bind(this);
         this.modifyPackageJson = this.modifyPackageJson.bind(this);
         this.installPackages = this.installPackages.bind(this);
+        this.runScripts = this.runScripts.bind(this);
         this.addJob = this.addJob.bind(this);
         this.updateJob = this.updateJob.bind(this);
     }
@@ -59,7 +71,8 @@ class Setup extends Component {
                 this.writeConfigFiles(list),
                 this.copyConfigFiles(list),
                 this.modifyPackageJson(list),
-                this.installPackages(list)
+                this.installPackages(list),
+                this.runScripts(list)
             ]);
 
             this.setState({ status: 'done', summary: flatten(jobs) });
@@ -142,18 +155,31 @@ class Setup extends Component {
     }
 
     async installPackages(list) {
-        const jobIndex = this.addJob('Installing npm packages ...');
         const packages = flatten(
             list.filter(val => tools[val].packages).map(val => tools[val].packages)
         );
+        const jobIndex = this.addJob(`Installing ${packages.length} npm packages ...`);
 
         if (packages.length) {
             await exec(`npm install -D ${packages.join(' ')}`);
             this.updateJob(jobIndex, 'Packackes installed.');
             return [`  - ${packages.length} packages installed`];
         } else {
-            return ['Nothing to install.'];
+            return ['  - Nothing to install.'];
         }
+    }
+
+    async runScripts(list) {
+        const jobIndex = this.addJob('Execute scripts...');
+        const scripts = list
+            .filter(val => tools[val].script)
+            .map(async val => {
+                await exec(tools[val].script);
+                return `  - Script (${tools[val].name}) executed`;
+            });
+
+        this.updateJob(jobIndex, 'Scripts executed.');
+        return Promise.all(scripts);
     }
 
     render() {
