@@ -1,27 +1,28 @@
 module.exports = {
     name: 'Code linting',
-    config: {
-        parser: 'babel-eslint',
-        extends: ['standard'],
-        rules: {
-            indent: ['error', 4],
-            semi: ['error', 'always'],
-            camelcase: ['warn', { ignoreDestructuring: true }],
-            'no-console': ['error', { allow: ['warn', 'error'] }]
+    packages: ['healthier', 'babel-eslint'],
+    packageJson: list => {
+        let lintScript = "healthier 'src/**/*.{js,html}'";
+
+        if (list.includes('lint')) {
+            lintScript = `prettier --check 'src/**/*.{js,html}' && ${lintScript}`;
         }
-    },
-    packages: [
-        'eslint',
-        'eslint-config-standard',
-        'eslint-plugin-import',
-        'eslint-plugin-node',
-        'eslint-plugin-promise',
-        'eslint-plugin-standard',
-        'babel-eslint'
-    ],
-    packageJson: {
-        scripts: {
-            lint: 'eslint src'
-        }
+        return {
+            eslintConfig: {
+                parser: 'babel-eslint',
+                rules: {
+                    'no-console': [
+                        'error',
+                        {
+                            allow: ['warn', 'error']
+                        }
+                    ],
+                    camelcase: ['warn']
+                }
+            },
+            scripts: {
+                lint: lintScript
+            }
+        };
     }
 };

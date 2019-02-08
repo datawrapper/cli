@@ -11,7 +11,6 @@ const Spinner = require('ink-spinner');
 const Gradient = require('ink-gradient');
 
 const exit = require('./exit');
-const lintConfig = require('../config/eslint');
 
 function replaceSource (objValue, srcValue) {
     if (Array.isArray(objValue)) {
@@ -23,10 +22,7 @@ function replaceSource (objValue, srcValue) {
 }
 
 const tools = {
-    lint: {
-        writeFile: ['.eslintrc.json', lintConfig.config],
-        ...lintConfig
-    },
+    lint: require('../config/eslint'),
     format: require('../config/prettier'),
     hooks: require('../config/git-hooks'),
     ci: {

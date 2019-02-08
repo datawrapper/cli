@@ -9,7 +9,7 @@ module.exports = {
         }
 
         if (list.includes('lint')) {
-            hookScripts.push('eslint --fix');
+            hookScripts.push('healthier');
         }
 
         hookScripts.push('git add');
