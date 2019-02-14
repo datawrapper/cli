@@ -17,7 +17,13 @@ module.exports = {
                             allow: ['warn', 'error']
                         }
                     ],
-                    camelcase: ['warn']
+                    camelcase: [
+                        'warn',
+                        {
+                            ignoreDestructuring: true,
+                            properties: 'never'
+                        }
+                    ]
                 }
             },
             scripts: {
