@@ -148,7 +148,11 @@ class Setup extends Component {
                 return mergeWith(newKeys, tempPackageJson, replaceSource);
             }, packageJson);
 
-        await fs.writeJSON(path.join(process.cwd(), 'package.json'), newPackageJson, { spaces: 2 });
+        const sortedPackageJson = sortPackageJson(newPackageJson);
+
+        await fs.writeJSON(path.join(process.cwd(), 'package.json'), sortedPackageJson, {
+            spaces: 4
+        });
 
         this.updateJob(jobIndex, 'Keys added to package.json');
         return ['  - package.json updated'];
@@ -239,3 +243,49 @@ class Setup extends Component {
 }
 
 module.exports = () => render(<Setup />);
+
+/**
+ * re-orders the keys in a package.json object
+ */
+function sortPackageJson(pkgJson) {
+    const keyOrder = [
+        'name',
+        'version',
+        'description',
+        'keywords',
+        'homepage',
+        'bugs',
+        'license',
+        'author',
+        'contributors',
+        'files',
+        'main',
+        'browser',
+        'bin',
+        'scripts',
+        'repository',
+        'config',
+        'directories',
+        'dependencies',
+        'devDependencies',
+        'peerDependencies',
+        'bundledDependencies',
+        'optionalDependencies'
+    ];
+    // create a temporary map to reduce computing overhead in sort function
+    const sortIndex = Object.keys(pkgJson).reduce((sortIndex, key) => {
+        sortIndex[key] = keyOrder.indexOf(key);
+        if (sortIndex[key] < 0) sortIndex[key] = 999;
+        return sortIndex;
+    }, {});
+
+    const sortedPackageJSON = {};
+    Object.keys(pkgJson)
+        .sort((a, b) => {
+            return sortIndex[a] - sortIndex[b];
+        })
+        .forEach(key => {
+            sortedPackageJSON[key] = pkgJson[key];
+        });
+    return sortedPackageJSON;
+}
