@@ -287,5 +287,5 @@ function sortPackageJson(pkgJson) {
         .forEach(key => {
             sortedPackageJSON[key] = pkgJson[key];
         });
-    return pkgJson;
+    return sortedPackageJSON;
 }
