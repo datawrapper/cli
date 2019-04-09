@@ -1,9 +1,8 @@
-const { exec } = require('shelljs');
-const { h, render, Component, Color } = require('ink');
-const Spinner = require('ink-spinner');
-const Gradient = require('ink-gradient');
-
-const exit = require('./exit');
+import React, { Component } from 'react';
+import { render, Color, Box, Text } from 'ink';
+import { exec } from 'shelljs';
+import Spinner from 'ink-spinner';
+import Gradient from 'ink-gradient';
 
 class Lint extends Component {
     constructor(props) {
@@ -31,9 +30,6 @@ class Lint extends Component {
         const { pattern = "'src/**/*.{js,html}'" } = this.props;
         const lint = exec(`npx healthier ${pattern}`, { async: true, silent: true }, () => {
             this.setState({ status: '[done] Code linted' });
-            setTimeout(() => {
-                exit();
-            }, 0);
         });
 
         lint.stdout.on('data', this.pushMessage('error'));
@@ -47,15 +43,21 @@ class Lint extends Component {
         const { status, messages } = this.state;
 
         return (
-            <div>
-                <br />
-                {messages.map(m => (
-                    <Color red={m[0] === 'error'}>{m[1]}</Color>
+            <Box flexDirection="column">
+                {messages.map((m, i) => (
+                    <Color key={i} red={m[0] === 'error'}>
+                        {m[1]}
+                    </Color>
                 ))}
-                <br />
-                {status.includes('[running]') && <Spinner green />}
-                <Gradient name="cristal"> {status}</Gradient>
-            </div>
+                <Box paddingTop={1}>
+                    {status.includes('[running]') && (
+                        <Text>
+                            <Spinner green />{' '}
+                        </Text>
+                    )}
+                    <Gradient name="cristal">{status}</Gradient>
+                </Box>
+            </Box>
         );
     }
 }

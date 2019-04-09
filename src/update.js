@@ -1,9 +1,9 @@
-const { exec } = require('shelljs');
-const { h, render, Component, Color } = require('ink');
-const Spinner = require('ink-spinner');
-const Gradient = require('ink-gradient');
-const SelectInput = require('ink-select-input');
-const exit = require('./exit');
+import React, { Component } from 'react';
+import { render, Color, Box } from 'ink';
+import { exec } from 'shelljs';
+import Spinner from 'ink-spinner';
+import Gradient from 'ink-gradient';
+import SelectInput from 'ink-select-input';
 
 const name = require('../package.json').name;
 
@@ -47,9 +47,6 @@ class Update extends Component {
                 this.setState({
                     status: err ? '[error] Update failed' : `[success] ${name} installed`
                 });
-                setTimeout(() => {
-                    exit();
-                }, 0);
             }
         );
         install.stdout.on('data', this.pushMessage('message'));
@@ -61,9 +58,6 @@ class Update extends Component {
         exec(`npm show ${name}@* version`, { async: true, silent: true }, (err, stdout, stderr) => {
             if (err) {
                 this.setState({ status: '[error] Loading failed.' });
-                setTimeout(() => {
-                    exit();
-                }, 0);
             }
 
             this.setState({
@@ -100,36 +94,33 @@ class Update extends Component {
 
         if (select && !status.includes('[running]')) {
             return (
-                <div>
+                <Box flexDirection="column">
                     <Gradient name="cristal">What version do you want to install?</Gradient>
-                    <br />
                     {status.includes('[loading]') && (
-                        <div>
+                        <Box>
                             <Spinner green />
                             <Gradient name="cristal"> {status}</Gradient>
-                        </div>
+                        </Box>
                     )}
                     <SelectInput
                         items={versions.map(v => ({ label: v, value: v }))}
                         onSelect={this.handleSelect}
                     />
-                </div>
+                </Box>
             );
         }
 
         return (
-            <div>
-                <br />
+            <Box flexDirection="column">
                 {messages.map(m => (
                     <Color green={m[0] === 'success'} red={m[0] === 'error'}>
                         {m[0] === 'success' && '✅ '}
                         {m[1]}
                     </Color>
                 ))}
-                <br />
                 {status.includes('[running]') && <Spinner green />}
                 <Gradient name="cristal"> {status}</Gradient>
-            </div>
+            </Box>
         );
     }
 }

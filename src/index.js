@@ -1,7 +1,8 @@
 #! /usr/bin/env node
 
-var program = require('commander');
-const { version } = require('../package.json');
+import program from 'commander';
+import { version, name } from '../package.json';
+import { exec } from 'shelljs';
 
 program.version(version);
 
@@ -38,3 +39,16 @@ program
     .action(require('./update'));
 
 program.parse(process.argv);
+
+process.on('exit', () => {
+    const { stdout } = exec(`npm show ${name}@latest version`, {
+        silent: true
+    });
+    if (stdout.trim() !== version.trim()) {
+        return;
+    }
+
+    process.stdout.write(`
+A new version of ${name} is available. Run "dw update" to get it.
+`);
+});

@@ -1,9 +1,8 @@
-const { exec } = require('shelljs');
-const { h, render, Component, Color } = require('ink');
-const Spinner = require('ink-spinner');
-const Gradient = require('ink-gradient');
-
-const exit = require('./exit');
+import React, { Component } from 'react';
+import { render, Color, Box, Text } from 'ink';
+import { exec } from 'shelljs';
+import Spinner from 'ink-spinner';
+import Gradient from 'ink-gradient';
 
 class Format extends Component {
     constructor(props) {
@@ -35,9 +34,6 @@ class Format extends Component {
 
         exec(`npx eslint ${pattern} --fix`, { async: true, silent: true }, () => {
             this.setState({ status: '[done] Code formatted' });
-            setTimeout(() => {
-                exit();
-            }, 0);
         });
 
         format.stdout.on('data', this.pushMessage('success'));
@@ -52,19 +48,21 @@ class Format extends Component {
         const { status, messages } = this.state;
 
         return (
-            <div>
-                <br />
-                {messages.map(m => (
-                    <Color green={m[0] === 'success'} red={m[0] === 'error'}>
+            <Box flexDirection="column">
+                {messages.map((m, i) => (
+                    <Color key={i} green={m[0] === 'success'} red={m[0] === 'error'}>
                         {m[0] === 'error' && <br />}
                         {m[0] === 'success' && '✅ '}
                         {m[1]}
                     </Color>
                 ))}
-                <br />
-                {status.includes('[running]') && <Spinner green />}
-                <Gradient name="cristal"> {status}</Gradient>
-            </div>
+                {status.includes('[running]') && (
+                    <Text>
+                        <Spinner green />{' '}
+                    </Text>
+                )}
+                <Gradient name="cristal">{status}</Gradient>
+            </Box>
         );
     }
 }

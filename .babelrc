@@ -1,11 +1,3 @@
 {
-    "plugins": [
-        [
-            "transform-react-jsx",
-            {
-                "pragma": "h",
-                "pragmaFrag": "h.Fragment"
-            }
-        ]
-    ]
+    "presets": ["@babel/preset-react"]
 }

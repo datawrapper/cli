@@ -1,16 +1,16 @@
-const fs = require('fs-extra');
-const path = require('path');
-const util = require('util');
+import fs from 'fs-extra';
+import path from 'path';
+import util from 'util';
+
+import React, { Component } from 'react';
+import { render, Color, Box } from 'ink';
+import flatten from 'lodash/flatten';
+import mergeWith from 'lodash/mergeWith';
+import MultiSelect from 'ink-multi-select';
+import Spinner from 'ink-spinner';
+import Gradient from 'ink-gradient';
+
 const exec = util.promisify(require('child_process').exec);
-
-const flatten = require('lodash/flatten');
-const mergeWith = require('lodash/mergeWith');
-const { h, Component, render, Color } = require('ink');
-const { List, ListItem } = require('ink-checkbox-list');
-const Spinner = require('ink-spinner');
-const Gradient = require('ink-gradient');
-
-const exit = require('./exit');
 
 function replaceSource(objValue, srcValue) {
     if (Array.isArray(objValue)) {
@@ -65,7 +65,8 @@ class Setup extends Component {
         this.updateJob = this.updateJob.bind(this);
     }
 
-    handleSubmit(list) {
+    handleSubmit(items) {
+        const list = items.map(({ value }) => value);
         this.setState({ status: 'running' }, async () => {
             const jobs = await Promise.all([
                 this.writeConfigFiles(list),
@@ -76,9 +77,6 @@ class Setup extends Component {
             ]);
 
             this.setState({ status: 'done', summary: flatten(jobs) });
-            setTimeout(() => {
-                exit();
-            }, 0);
         });
     }
 
@@ -166,7 +164,7 @@ class Setup extends Component {
 
         if (packages.length) {
             await exec(`npm install -D ${packages.join(' ')}`);
-            this.updateJob(jobIndex, 'Packackes installed.');
+            this.updateJob(jobIndex, 'Packages installed.');
             return [`  - ${packages.length} packages installed`];
         } else {
             return ['  - Nothing to install.'];
@@ -190,54 +188,51 @@ class Setup extends Component {
         const { status, jobs, summary } = this.state;
         if (status === 'done') {
             return (
-                <div>
-                    <br />
+                <Box flexDirection="column" paddingTop={1}>
                     <Gradient name="cristal">Setup completed! Let's write some code!</Gradient>
-                    <br />
-                    <br />
-                    {summary.map(item => (
-                        <div key="item">{item}</div>
-                    ))}
-                </div>
+                    <Box flexDirection="column" paddingTop={1}>
+                        {summary.map(item => (
+                            <Box key={item}>{item}</Box>
+                        ))}
+                    </Box>
+                </Box>
             );
         }
 
         if (status === 'running') {
             return (
-                <div>
-                    <br />
-                    <Spinner green /> <Gradient name="cristal">Setup is running...</Gradient>
-                    <br />
-                    <br />
-                    {jobs.map(([job, done]) => (
-                        <div key={job}>
-                            {done ? '✅' : <Spinner green />} {job}
-                        </div>
-                    ))}
-                </div>
+                <Box flexDirection="column" paddingTop={1}>
+                    <Gradient name="cristal">Setup is running...</Gradient>
+                    <Box flexDirection="column" paddingTop={1}>
+                        {jobs.map(([job, done]) => (
+                            <Box key={job}>
+                                {done ? '✅' : <Spinner green />} {job}
+                            </Box>
+                        ))}
+                    </Box>
+                </Box>
             );
         }
 
         return (
-            <div>
-                <br />
-                <div>
+            <Box flexDirection="column">
+                <Box flexDirection="column" paddingTop={1}>
                     <Gradient name="cristal">What do you want to setup?</Gradient>
-                </div>
-                <br />
-                <List onSubmit={this.handleSubmit}>
-                    {Object.entries(tools).map(tool => (
-                        <ListItem key={tool[0]} value={tool[0]} checked>
-                            {tool[1].name}
-                        </ListItem>
-                    ))}
-                </List>
-                <br />
-                <div>
+                </Box>
+                <Box paddingTop={1} paddingBottom={1}>
+                    <MultiSelect
+                        items={Object.entries(tools).map(tool => ({
+                            label: tool[1].name,
+                            value: tool[0]
+                        }))}
+                        onSubmit={this.handleSubmit}
+                    />
+                </Box>
+                <Box width="100%">
                     Press <Color cyan>[space]</Color> to select an option and{' '}
                     <Color cyan>[enter]</Color> to start the setup.
-                </div>
-            </div>
+                </Box>
+            </Box>
         );
     }
 }
