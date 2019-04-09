@@ -44,11 +44,11 @@ process.on('exit', () => {
     const { stdout } = exec(`npm show ${name}@latest version`, {
         silent: true
     });
-    if (stdout.trim() !== version.trim()) {
+    if (stdout.trim() === version.trim()) {
         return;
     }
 
     process.stdout.write(`
-A new version of ${name} is available. Run "dw update" to get it.
+A new version (v${stdout}) of ${name} is available. Run "dw update" to get it.
 `);
 });
