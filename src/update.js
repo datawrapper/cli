@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { render, Color, Box } from 'ink';
+import { render, Color, Box, Text } from 'ink';
 import { exec } from 'shelljs';
 import Spinner from 'ink-spinner';
 import Gradient from 'ink-gradient';
@@ -112,13 +112,17 @@ class Update extends Component {
 
         return (
             <Box flexDirection="column">
-                {messages.map(m => (
-                    <Color green={m[0] === 'success'} red={m[0] === 'error'}>
+                {messages.map((m, i) => (
+                    <Color key={i} green={m[0] === 'success'} red={m[0] === 'error'}>
                         {m[0] === 'success' && '✅ '}
                         {m[1]}
                     </Color>
                 ))}
-                {status.includes('[running]') && <Spinner green />}
+                {status.includes('[running]') && (
+                    <Text>
+                        <Spinner green />{' '}
+                    </Text>
+                )}
                 <Gradient name="cristal"> {status}</Gradient>
             </Box>
         );
