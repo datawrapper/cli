@@ -1,5 +1,6 @@
 import fs from 'fs-extra';
 import path from 'path';
+import { homedir } from 'os';
 import util from 'util';
 
 import React, { Component } from 'react';
@@ -32,6 +33,12 @@ const tools = {
     gitignore: {
         name: 'Add gitignore',
         copyFile: ['../config/.gitignore-example', '.gitignore']
+    },
+    /* https://help.github.com/en/articles/ignoring-files#create-a-global-gitignore */
+    globalGitignore: {
+        name: 'Add global gitignore',
+        copyFile: ['../config/.gitignore-example', path.join(homedir(), '.gitignore_global')],
+        script: 'git config --global core.excludesfile ~/.gitignore_global'
     },
     vscode: {
         name: 'VSCode Extensions',
@@ -101,10 +108,10 @@ class Setup extends Component {
         const funcs = list
             .filter(val => tools[val].copyFile)
             .map(async val => {
-                await fs.copy(
-                    path.join(__dirname, tools[val].copyFile[0]),
-                    path.join(process.cwd(), tools[val].copyFile[1])
-                );
+                const destinationPath = path.isAbsolute(tools[val].copyFile[1])
+                    ? tools[val].copyFile[1]
+                    : path.join(process.cwd(), tools[val].copyFile[1]);
+                await fs.copy(path.join(__dirname, tools[val].copyFile[0]), destinationPath);
                 return `  - ${tools[val].copyFile[1]} copied`;
             });
 
