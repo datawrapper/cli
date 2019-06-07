@@ -19,6 +19,18 @@ This will only lint \`index.js\`.
     .action(require('./lint'));
 
 program
+    .command('gitignore [files...]')
+    .option('-a, --add', 'Flag if you want to add items from your gitignore file')
+    .option('-r, --remove', 'Flag if you want to remove items from your gitignore file')
+    .option('-g, --global', 'Flag if you want modify your global gitignore file')
+    .description(
+        `Use this command to modify entries in your local or global gitignore file.
+By default this command will operate on your local gitignore and add entries.
+`
+    )
+    .action(require('./gitignore'));
+
+program
     .command('format [pattern]')
     .description(
         `Use prettier to format your code \n
