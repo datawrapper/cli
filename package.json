@@ -1,6 +1,6 @@
 {
     "name": "@datawrapper/cli",
-    "version": "0.4.2",
+    "version": "0.5.0",
     "description": "Command Line Utility to make project scaffolding and tooling setup simple.",
     "keywords": [
         "cli",
